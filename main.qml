@@ -14,6 +14,7 @@ Window {
 
     property variant words: []
     property variant counts: []
+    property int topwords: 15
 
     ColumnLayout {
         anchors.fill: parent
@@ -37,7 +38,7 @@ Window {
                 }
                 axisX: ValueAxis {
                     id: valueAxisY
-                    min: 0
+                    min: 1
 //                    tickCount: 100
                     gridVisible: true
                     labelsColor: "black"
@@ -61,8 +62,8 @@ Window {
 //            Layout.fillHeight: true
 
             onTextChanged: {
-
-                operator.sendMessage(text)
+                var msg = [text,topwords]
+                operator.sendMessage(msg)
 
 //                words = []
 //                counts = []
