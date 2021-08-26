@@ -17,7 +17,7 @@ WorkerScript.onMessage = function(src) {
                 else
                     result[a] = 1;
     })
-
+// HI
 
 //    for (var i = 0; i < words.length; i++) {
 //        if (words[i] !== "") {
