@@ -18,6 +18,7 @@ WorkerScript.onMessage = function(src) {
                     result[a] = 1;
     })
 
+
 //    for (var i = 0; i < words.length; i++) {
 //        if (words[i] !== "") {
 //            var cnt = txt.split(words[i])
