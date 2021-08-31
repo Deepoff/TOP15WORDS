@@ -2,9 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.4
 
 ToolButton {
-    id: openButton
+    id: aboutBtn
     property int btn_state: 0
-    property real w_scaling: 1
     state: btn_state > 0 ? "Open" : "Close"
 
     Rectangle {
@@ -16,7 +15,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"
@@ -28,7 +27,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle2
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"
@@ -39,7 +38,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle3
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"

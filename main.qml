@@ -40,6 +40,32 @@ ApplicationWindow {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
             }
+            AboutButton {
+                id: aboutButton
+                onClicked: {popupAbout.open(); btn_state = 1}
+            }
+
+            Popup {
+                id: popupAbout
+
+//                parent: Overlay.overlay
+
+                contentItem:
+                    Text {
+                    id: about1
+                    font.pixelSize: 15
+        //            fontsize: 15
+                    anchors.fill: parent
+                    anchors.margins: parent.width/50
+                    text: APP_VERSION + " " + APP_BUILD + " " + DATESTR
+                }
+
+                x: Math.round((app.width - width) / 2)
+                y: Math.round((app.height - height) / 2)
+                width: app.width/1.5
+                height: app.height/3
+                onClosed: aboutButton.btn_state = 0
+            }
         }
     }
 

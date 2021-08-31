@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>operation.js</file>
         <file>OpenButton.qml</file>
+        <file>AboutButton.qml</file>
     </qresource>
 </RCC>
