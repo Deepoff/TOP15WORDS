@@ -40,6 +40,34 @@ ApplicationWindow {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
             }
+            AboutButton {
+                id: aboutButton
+                onClicked: {popupAbout.open(); btn_state = 1}
+            }
+
+            Popup {
+                id: popupAbout
+
+//                parent: Overlay.overlay
+
+                contentItem:
+                    Text {
+                    id: about1
+                    font.pixelSize: 15
+                    //            fontsize: 15
+                    anchors.fill: parent
+                    anchors.margins: parent.width/50
+                    text: "Application version: " + APP_VERSION +
+                          "\n" + "Number of build: " + APP_BUILD +
+                          "\n" + "Date of build: " + DATESTR
+                }
+
+                x: Math.round((app.width - width) / 2)
+                y: Math.round((app.height - height) / 2)
+                width: app.width/1.5
+                height: app.height/3
+                onClosed: aboutButton.btn_state = 0
+            }
         }
     }
 
@@ -128,6 +156,7 @@ ApplicationWindow {
         onAccepted: {
             var msg = [openFile(openFileDialog.fileUrl),topwords]
             threaded_operator.sendMessage(msg)
+            chartView.title = nameFile(openFileDialog.fileUrl)
 //            name.text = openFile(openFileDialog.fileUrl);
             openButton.btn_state = 0
         }
@@ -139,5 +168,10 @@ ApplicationWindow {
         request.open("GET", fileUrl, false);
         request.send(null);
         return request.responseText;
+    }
+    function nameFile(fileUrl) {
+        var name = fileUrl.toString()
+        name = name.slice(name.lastIndexOf("/")+1, name.indexOf("."))
+        return name
     }
 }

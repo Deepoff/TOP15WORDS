@@ -2,9 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.4
 
 ToolButton {
-    id: openButton
+    id: aboutBtn
     property int btn_state: 0
-    property real w_scaling: 1
     state: btn_state > 0 ? "Open" : "Close"
 
     Rectangle {
@@ -16,7 +15,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"
@@ -28,7 +27,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle2
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"
@@ -39,7 +38,7 @@ ToolButton {
 
         Rectangle {
             id: rectangle3
-            width: parent.width/w_scaling
+            width: parent.width/5
             height: parent.height/5
             radius: width/2
             color: "white"
@@ -80,11 +79,11 @@ ToolButton {
             PropertyAnimation {
                 target: rectangle1
                 easing.amplitude: 2
-                duration: 400
-                properties: "rotation"
-                from: 0
-                to: 90
-                easing.type: Easing.OutElastic
+                duration: 500
+                properties: "scale"
+                from: 1
+                to: 0
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
@@ -93,11 +92,11 @@ ToolButton {
 
             PropertyAnimation {
                 target: rectangle1
-                easing.amplitude: 2
-                duration: 400
-                properties: "rotation"
-                from: 90
-                to: 0
+                easing.amplitude: 1.5
+                duration: 500
+                properties: "scale"
+                from: 0
+                to: 1
                 easing.type: Easing.OutElastic
             }
         }

@@ -1,17 +1,23 @@
 TEMPLATE = app
 TARGET  = Top15Words
 
-win32:VERSION = $$system(git rev-parse --abbrev-ref HEAD)
-else:VERSION = $$system(git rev-parse --abbrev-ref HEAD)
+win32:      {
+                RC_ICONS = icon.ico
+                OS_SUFFIX = win32
+                DESTDIR = Bin
+                VERSION = $$system(D:\OLD\Program_Files\Git\cmd\git.exe rev-parse --abbrev-ref HEAD)
+            }
+linux-g++:  {
+                OS_SUFFIX = linux
+                VERSION = $$system(D:\OLD\Program_Files\Git\cmd\git.exe rev-parse --abbrev-ref HEAD)
+            }
 
-BUILDSTR = $$system(git describe --abbrev=12 --always --dirty=+)
-DATESTR = __DATE__
+BUILDSTR = $$system(D:\OLD\Program_Files\Git\cmd\git.exe describe --abbrev=12 --always --dirty=+)
 
-QMAKE_TARGET_COPYRIGHT = (c) Alistem Systems
+QMAKE_TARGET_COPYRIGHT = (c) 2GIS LLC
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"    \
            APP_BUILD=\\\"$$BUILDSTR\\\" \
-           #APP_DATE=\\\"$$DATESTR\\\"   \
 
 QT += quick qml quickcontrols2 charts
 
@@ -35,17 +41,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
-win32:      {
-                RC_ICONS = icon.ico
-                OS_SUFFIX = win32
-                DESTDIR = Bin
-                VERSION = $$system(git rev-parse --abbrev-ref HEAD)
-            }
-linux-g++:  {
-                OS_SUFFIX = linux
-                VERSION = $$system(git rev-parse --abbrev-ref HEAD)
-            }
 
 SOURCES += \
         main.cpp
