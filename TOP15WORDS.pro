@@ -5,7 +5,7 @@ win32:      {
                 RC_ICONS = icon.ico
                 OS_SUFFIX = win32
                 DESTDIR = Bin
-                VERSION = $$system(D:\OLD\Program_Files\Git\cmd\git.exe rev-parse )#--abbrev-ref HEAD)
+                VERSION = $$system(D:\OLD\Program_Files\Git\cmd\git.exe rev-parse --abbrev-ref HEAD)
             }
 linux-g++:  {
                 OS_SUFFIX = linux
@@ -13,14 +13,11 @@ linux-g++:  {
             }
 
 BUILDSTR = $$system(D:\OLD\Program_Files\Git\cmd\git.exe describe --abbrev=12 --always --dirty=+)
-#DATESTR = __DATE__
-
 
 QMAKE_TARGET_COPYRIGHT = (c) 2GIS LLC
 
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"    \
            APP_BUILD=\\\"$$BUILDSTR\\\" \
-#           APP_DATE=\\\"$$DATESTR\\\"   \
 
 QT += quick qml quickcontrols2 charts
 

@@ -1,20 +1,16 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-//QString About () {
-//    QString str;
-//    str = "build number: " + APP_BUILD + "\n" + "build date: " + __DATE__ + "number of release: " + APP_VERSION;
-//    return str;
-//}
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
-
-//    qmlRegisterType<About, 1>("About", 1, 0, "About");
+    QApplication::setApplicationName("TOP 15 WORDS");
+    QApplication::setWindowIcon(QIcon("icon.png"));
+    QApplication::setOrganizationName("2GIS LLC");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -80,7 +80,7 @@ ToolButton {
             PropertyAnimation {
                 target: rectangle1
                 easing.amplitude: 2
-                duration: 300
+                duration: 400
                 properties: "rotation"
                 from: 0
                 to: 90
@@ -94,7 +94,7 @@ ToolButton {
             PropertyAnimation {
                 target: rectangle1
                 easing.amplitude: 2
-                duration: 300
+                duration: 400
                 properties: "rotation"
                 from: 90
                 to: 0

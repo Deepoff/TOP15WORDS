@@ -79,11 +79,11 @@ ToolButton {
             PropertyAnimation {
                 target: rectangle1
                 easing.amplitude: 2
-                duration: 300
-                properties: "rotation"
-                from: 0
-                to: 90
-                easing.type: Easing.OutElastic
+                duration: 500
+                properties: "scale"
+                from: 1
+                to: 0
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
@@ -92,11 +92,11 @@ ToolButton {
 
             PropertyAnimation {
                 target: rectangle1
-                easing.amplitude: 2
-                duration: 300
-                properties: "rotation"
-                from: 90
-                to: 0
+                easing.amplitude: 1.5
+                duration: 500
+                properties: "scale"
+                from: 0
+                to: 1
                 easing.type: Easing.OutElastic
             }
         }

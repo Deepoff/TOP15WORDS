@@ -54,10 +54,12 @@ ApplicationWindow {
                     Text {
                     id: about1
                     font.pixelSize: 15
-        //            fontsize: 15
+                    //            fontsize: 15
                     anchors.fill: parent
                     anchors.margins: parent.width/50
-                    text: APP_VERSION + " " + APP_BUILD + " " + DATESTR
+                    text: "Application version: " + APP_VERSION +
+                          "\n" + "Number of build: " + APP_BUILD +
+                          "\n" + "Date of build: " + DATESTR
                 }
 
                 x: Math.round((app.width - width) / 2)
@@ -154,6 +156,7 @@ ApplicationWindow {
         onAccepted: {
             var msg = [openFile(openFileDialog.fileUrl),topwords]
             threaded_operator.sendMessage(msg)
+            chartView.title = nameFile(openFileDialog.fileUrl)
 //            name.text = openFile(openFileDialog.fileUrl);
             openButton.btn_state = 0
         }
@@ -165,5 +168,10 @@ ApplicationWindow {
         request.open("GET", fileUrl, false);
         request.send(null);
         return request.responseText;
+    }
+    function nameFile(fileUrl) {
+        var name = fileUrl.toString()
+        name = name.slice(name.lastIndexOf("/")+1, name.indexOf("."))
+        return name
     }
 }
