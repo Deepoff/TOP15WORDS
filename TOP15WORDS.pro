@@ -1,6 +1,29 @@
+TEMPLATE = app
+TARGET  = Top15Words
+
+win32:VERSION = $$system(git rev-parse --abbrev-ref HEAD)
+else:VERSION = $$system(git rev-parse --abbrev-ref HEAD)
+
+BUILDSTR = $$system(git describe --abbrev=12 --always --dirty=+)
+DATESTR = __DATE__
+
+QMAKE_TARGET_COPYRIGHT = (c) Alistem Systems
+
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"    \
+           APP_BUILD=\\\"$$BUILDSTR\\\" \
+           #APP_DATE=\\\"$$DATESTR\\\"   \
+
 QT += quick qml quickcontrols2 charts
 
 CONFIG += c++11
+
+CONFIG(debug, debug|release) {
+        BUILD_FLAG = debug
+        LIB_SUFFIX = d
+} else {
+        BUILD_FLAG = release
+        win32:QMAKE_POST_LINK += windeployqt --no-translations $$DESTDIR
+  }
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -12,6 +35,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+win32:      {
+                RC_ICONS = icon.ico
+                OS_SUFFIX = win32
+                DESTDIR = Bin
+                VERSION = $$system(git rev-parse --abbrev-ref HEAD)
+            }
+linux-g++:  {
+                OS_SUFFIX = linux
+                VERSION = $$system(git rev-parse --abbrev-ref HEAD)
+            }
 
 SOURCES += \
         main.cpp

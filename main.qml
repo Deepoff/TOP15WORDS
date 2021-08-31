@@ -3,125 +3,141 @@ import QtQuick.Window 2.3
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtCharts 2.2
+import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.0 as Labs
 
 
-Window {
+ApplicationWindow {
     id: app
     visible: true
     width: 640
-    height: 480
+    height: 800
     title: qsTr("TOP 15 WORDS")
 
-    property variant words: []
-    property variant counts: []
     property int topwords: 15
+
+    header: ToolBar {
+        id: mainToolbar
+        anchors.right: parent.right
+        anchors.left: parent.left
+
+        RowLayout {
+            anchors.fill: parent
+
+            OpenButton {
+                id: openButton
+                visible: true
+                Layout.fillHeight: true
+                onClicked: {openFileDialog.open(); btn_state = 1}
+            }
+            Label {
+                id: labelName
+                text: "TOP 15 WORDS"
+                font.bold: true
+                font.pixelSize: 20
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
         ChartView {
-            title: "TOP 15 WORDS"
-//            anchors.fill: parent
+            id: chartView
             antialiasing: true
+            dropShadowEnabled: true
+//            title: "TOP 15 WORDS!"
             Layout.fillWidth: true
             Layout.fillHeight: true
+            theme: ChartView.ChartThemeBlueCerulean
 
             HorizontalBarSeries {
                 id: top15Bars
+                barWidth: 0.8
+                labelsFormat: ""
+                visible: true
+                labelsVisible: true
+                useOpenGL: true
 
                 axisY: BarCategoryAxis {
                     id: barCategoryAxis
-//                    categories: words
                     labelsVisible: true
-//                    labelsColor: "black"
-//                    labelsFont: Qt.font({pixelSize: 12})
-//                    titleText: qsTr("Words")
+                    labelsFont: Qt.font({pixelSize: 15})
                 }
                 axisX: ValueAxis {
                     id: valueAxisY
-                    min: 1
-//                    tickCount: 100
+                    min: 0
+                    tickCount: 1
                     gridVisible: true
-                    labelsColor: "black"
-                    labelsFont: Qt.font({pixelSize: 12})
+//                    labelsColor: "black"
+                    labelsFont: Qt.font({pixelSize: 15})
                     titleText: qsTr("Count")
-                    labelFormat: "%.1f"
+                    labelFormat: "%.1f"          
                 }
 
                 BarSet {
                     id: barSet
-//                    values: counts
                 }
             }
         }
 
-        TextEdit {
-            id: name
-            text: qsTr("")
+        ProgressBar {
+            id: progressBar
             Layout.fillWidth: true
-            focus: true
-//            Layout.fillHeight: true
-
-            onTextChanged: {
-                var msg = [text,topwords]
-                operator.sendMessage(msg)
-
-//                words = []
-//                counts = []
-//                for (var key in massall) {
-//                    words.push(massall[key].name)
-//                    counts.push(massall[key].count)
-//                }
-
-//                barCategoryAxis.categories = words
-//                barSet.values = counts
-            }
+            Layout.minimumHeight: 50
+            from: 0
+            to: 1
         }
 
-    }
+//        TextEdit {
+//            id: name
+//            text: qsTr("")
+//            Layout.fillWidth: true
+//            Layout.maximumHeight: 100
+//            focus: true
 
-//    function words_range(txt) {
-//        txt = txt.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"")
-////        .replace(/\s{2,}/g," ")
-
-//        var massive = []
-//        var words = txt.split(" ")
-//        var iter = 0
-//        for (var i = 0; i < words.length; i++) {
-//            if (words[i] !== "") {
-//                var cnt = txt.split(words[i])
-//                var exist = false
-
-//                if (massive.length)
-//                    massive.forEach(function(item, j, arr) {
-//                        if(item.name === words[i])
-//                            exist = true
-//                    })
-
-//                if(!exist) {
-//                    iter += 1
-//                    var wordx = [{"name": "", "count": 0}]
-//                    wordx.name = words[i]
-//                    wordx.count = cnt.length - 1
-//                    massive.push(wordx)
-//                }
+//            onTextChanged: {
+//                var msg = [text,topwords]
+//                threaded_operator.sendMessage(msg)
 //            }
 //        }
-
-////        for (var key in massive) {console.debug(massive[key].name,massive[key].count)}
-//        return (massive)
-//    }
+    }
 
     WorkerScript {
-        id: operator
+        id: threaded_operator
         source: "operation.js"
         onMessage: {
-//            words = []
-//            counts = []
-            barCategoryAxis.categories = messageObject.names
-            barSet.values = messageObject.counts
-            valueAxisY.max = Math.max.apply(null,messageObject.counts)
-//            console.debug(Math.max.apply(null,counts))
+            if(messageObject.complete) {
+                progressBar.value = 0
+                barCategoryAxis.titleText = "Words"
+                barCategoryAxis.categories = messageObject.names
+                barSet.values = messageObject.counts
+                valueAxisY.max = Math.max.apply(null,messageObject.counts)
+            }
+            else
+                progressBar.value = messageObject.progress
         }
     }
-//    Component.onCompleted: operator.sendMessage("text")
+
+    FileDialog {
+        id: openFileDialog
+        nameFilters: ["Text files (*.txt)", "All files (*)"]
+        onAccepted: {
+            var msg = [openFile(openFileDialog.fileUrl),topwords]
+            threaded_operator.sendMessage(msg)
+//            name.text = openFile(openFileDialog.fileUrl);
+            openButton.btn_state = 0
+        }
+        onRejected: openButton.btn_state = 0
+        folder: Labs.StandardPaths.writableLocation(Labs.StandardPaths.DocumentsLocation)
+    }
+    function openFile(fileUrl) {
+        var request = new XMLHttpRequest();
+        request.open("GET", fileUrl, false);
+        request.send(null);
+        return request.responseText;
+    }
 }
