@@ -56,7 +56,7 @@ ToolButton {
 
             PropertyChanges {
                 id: propertyChanges_open_icon
-                target: rectangle1; rotation: 90; /*height: passinput.height*/
+                target: rectangle1; rotation: 0; /*height: passinput.height*/
             }
         },
 

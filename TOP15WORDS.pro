@@ -28,7 +28,7 @@ CONFIG(debug, debug|release) {
         LIB_SUFFIX = d
 } else {
         BUILD_FLAG = release
-        win32:QMAKE_POST_LINK += windeployqt --no-translations $$DESTDIR
+        win32:QMAKE_POST_LINK += windeployqt --qmldir $$PWD/ --no-translations $$DESTDIR
   }
 
 # The following define makes your compiler emit warnings if you use
