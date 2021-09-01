@@ -9,7 +9,7 @@ win32:      {
             }
 linux-g++:  {
                 OS_SUFFIX = linux
-                VERSION = $$system(D:\OLD\Program_Files\Git\cmd\git.exe rev-parse --abbrev-ref HEAD)
+                VERSION = $$system(git rev-parse --abbrev-ref HEAD)
             }
 
 BUILDSTR = $$system(D:\OLD\Program_Files\Git\cmd\git.exe describe --abbrev=12 --always --dirty=+)
